@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Union studio crée des sites web, des applications, des vidéos et des univers sonores.">
+  <meta name="theme-color" content="#080b10">
+  <title>Union studio — Création web, vidéo & audio</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b10;
+      --surface: #101721;
+      --text: #f3f8ff;
+      --muted: #9daaba;
+      --line: rgb(214 232 255 / 12%);
+      --blue: #8bd5ff;
+      --blue-bright: #b6e8ff;
+      --blue-dark: #4aa9df;
+      --content: 1160px;
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 50% -10%, rgb(91 171 224 / 12%), transparent 42%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+
+    .container {
+      width: min(var(--content), calc(100% - 48px));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: absolute;
+      z-index: 5;
+      inset: 0 0 auto;
+      border-bottom: 1px solid rgb(255 255 255 / 9%);
+      background: rgb(7 10 14 / 58%);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      letter-spacing: -.025em;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 1px solid rgb(255 255 255 / 28%);
+      border-radius: 12px;
+      background: linear-gradient(145deg, var(--blue-bright), var(--blue-dark));
+      color: #06121b;
+      box-shadow: 0 0 24px rgb(139 213 255 / 24%);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 27px;
+      color: #d3deeb;
+      font-size: .9rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .nav-links a:hover { color: var(--blue); }
+
+    .nav-cta {
+      padding: 10px 16px;
+      border: 1px solid rgb(139 213 255 / 35%);
+      border-radius: 999px;
+      background: rgb(139 213 255 / 7%);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 780px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 150px 0 80px;
+      background:
+        radial-gradient(ellipse at 75% 45%, rgb(91 171 224 / 20%), transparent 35%),
+        linear-gradient(135deg, #101c2a, #080b10 72%);
+    }
+
+    .hero-art {
+      position: absolute;
+      inset: 0 0 0 auto;
+      width: min(68%, 1000px);
+      height: 100%;
+      opacity: .8;
+      pointer-events: none;
+    }
+
+    .hero-art svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--blue);
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+      content: "";
+      box-shadow: 0 0 12px currentColor;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 780px;
+      margin: 24px 0;
+      font-size: clamp(3.4rem, 9vw, 7.1rem);
+      line-height: .92;
+      letter-spacing: -.085em;
+    }
+
+    h1 span {
+      color: var(--blue);
+      text-shadow: 0 0 45px rgb(139 213 255 / 23%);
+    }
+
+    .hero-copy {
+      max-width: 630px;
+      color: #c4cfdb;
+      font-size: clamp(1.05rem, 2vw, 1.22rem);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 21px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue-bright), var(--blue));
+      color: #07121a;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgb(84 177 230 / 20%);
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+      box-shadow: 0 12px 38px rgb(84 177 230 / 30%);
+    }
+
+    .button-secondary {
+      border-color: rgb(255 255 255 / 20%);
+      background: rgb(11 16 22 / 55%);
+      color: var(--text);
+      box-shadow: none;
+      backdrop-filter: blur(10px);
+    }
+
+    .button-secondary:hover {
+      border-color: rgb(139 213 255 / 45%);
+      background: rgb(139 213 255 / 9%);
+      box-shadow: none;
+    }
+
+    .hero-note {
+      margin: 26px 0 0;
+      color: #aab6c3;
+      font-size: .9rem;
+    }
+
+    .hero-note strong { color: var(--text); }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 45px;
+    }
+
+    .hero-tag {
+      padding: 8px 13px;
+      border: 1px solid rgb(255 255 255 / 12%);
+      border-radius: 999px;
+      background: rgb(11 16 22 / 55%);
+      color: #d8e2ee;
+      font-size: .82rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-tag span {
+      margin-right: 7px;
+      color: var(--blue);
+    }
+
+    section { padding: 96px 0; }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 38px;
+    }
+
+    .section-heading h2,
+    .why-copy h2,
+    .contact-copy h2 {
+      margin: 12px 0 0;
+      font-size: clamp(2.3rem, 5vw, 3.9rem);
+      line-height: 1.02;
+      letter-spacing: -.065em;
+    }
+
+    .section-heading > p {
+      max-width: 390px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .service-card {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 100% 0%, rgb(139 213 255 / 7%), transparent 35%),
+        linear-gradient(145deg, #141c26, var(--surface));
+      transition: transform .25s ease, border-color .25s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      border-color: rgb(139 213 255 / 38%);
+    }
+
+    .service-icon {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 23px;
+      place-items: center;
+      border: 1px solid rgb(139 213 255 / 22%);
+      border-radius: 14px;
+      background: rgb(139 213 255 / 9%);
+      color: var(--blue);
+      font-size: 1.2rem;
+      box-shadow: inset 0 0 18px rgb(139 213 255 / 5%);
+    }
+
+    .service-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.3rem;
+      letter-spacing: -.03em;
+    }
+
+    .service-card > p { color: var(--muted); }
+
+    .service-card ul {
+      display: grid;
+      gap: 8px;
+      margin: 20px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .service-card li {
+      display: flex;
+      gap: 10px;
+      color: #d4dce6;
+      font-size: .92rem;
+    }
+
+    .service-card li::before {
+      color: var(--blue);
+      content: "↗";
+    }
+
+    .process-section,
+    .contact-section {
+      border-block: 1px solid rgb(255 255 255 / 6%);
+      background:
+        radial-gradient(ellipse at 85% 40%, rgb(139 213 255 / 7%), transparent 35%),
+        #0d1219;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .process-step {
+      padding: 22px 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .step-number {
+      display: block;
+      margin-bottom: 27px;
+      color: var(--blue);
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+
+    .process-step h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .process-step p { margin: 0; color: var(--muted); font-size: .91rem; }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .project-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, #141c26, #0d1219);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: rgb(139 213 255 / 42%);
+      box-shadow: 0 18px 55px rgb(0 0 0 / 28%);
+    }
+
+    .project-image-wrap {
+      position: relative;
+      overflow: hidden;
+      height: 250px;
+      background: #101721;
+    }
+
+    .project-image-wrap::after {
+      position: absolute;
+      inset: 45% 0 0;
+      background: linear-gradient(transparent, rgb(8 11 16 / 55%));
+      content: "";
+      pointer-events: none;
+    }
+
+    .project-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transition: transform .5s ease;
+    }
+
+    .project-card:hover .project-image { transform: scale(1.045); }
+
+    .project-content { padding: 20px 21px 22px; }
+
+    .project-type {
+      color: var(--blue);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .project-content h3 { margin: 7px 0 6px; font-size: 1.13rem; }
+    .project-content p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+    .why-grid,
+    .contact-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .why-copy h2 { max-width: 500px; }
+
+    .why-intro,
+    .contact-intro {
+      max-width: 470px;
+      margin-top: 17px;
+      color: var(--muted);
+    }
+
+    .benefits { display: grid; gap: 19px; }
+
+    .benefit {
+      display: grid;
+      grid-template-columns: 35px 1fr;
+      gap: 13px;
+      padding-bottom: 19px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .benefit-mark { color: var(--blue); font-size: 1.1rem; font-weight: 800; }
+    .benefit h3 { margin: 0 0 5px; font-size: 1.05rem; }
+    .benefit p { margin: 0; color: var(--muted); font-size: .91rem; }
+
+    .contact-email { color: var(--muted); }
+
+    .contact-email a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .contact-email a:hover { color: var(--blue-bright); }
+
+    .contact-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 100% 0%, rgb(139 213 255 / 7%), transparent 34%),
+        var(--surface);
+      box-shadow: 0 25px 80px rgb(0 0 0 / 22%);
+    }
+
+    .field { display: grid; gap: 7px; }
+    .field-full { grid-column: 1 / -1; }
+
+    label {
+      color: #d9e3ed;
+      font-size: .86rem;
+      font-weight: 650;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #303d4b;
+      border-radius: 11px;
+      outline: none;
+      background: #0a1017;
+      color: var(--text);
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    input, select { min-height: 47px; padding: 0 12px; }
+    textarea { min-height: 125px; padding: 12px; resize: vertical; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgb(139 213 255 / 10%);
+    }
+
+    .form-note {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    .contact-form .button {
+      justify-self: start;
+      border: 0;
+    }
+
+    .site-footer {
+      padding: 23px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .footer-content a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .footer-content a:hover { color: var(--blue); }
+
+    @media (max-width: 850px) {
+      .nav-links { gap: 15px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .hero { min-height: 700px; }
+      .process-grid { grid-template-columns: repeat(2, 1fr); }
+      .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+      .project-card:last-child { grid-column: 1 / -1; }
+      .why-grid, .contact-grid { grid-template-columns: 1fr; gap: 35px; }
+    }
+
+    @media (max-width: 560px) {
+      .container { width: min(100% - 32px, var(--content)); }
+      section { padding: 72px 0; }
+      .nav { min-height: 68px; }
+      .brand { font-size: .9rem; }
+      .nav-cta { padding: 8px 12px; font-size: .8rem; }
+      .hero {
+        min-height: 720px;
+        padding: 120px 0 55px;
+      }
+      .hero-art {
+        width: 100%;
+        opacity: .35;
+      }
+      .section-heading { align-items: start; flex-direction: column; }
+      .services-grid, .portfolio-grid, .contact-form { grid-template-columns: 1fr; }
+      .project-card:last-child { grid-column: auto; }
+      .field-full, .form-note { grid-column: auto; }
+      .project-image-wrap { height: 230px; }
+      .service-card, .contact-form { padding: 21px; }
+      .process-step { padding-inline: 12px; }
+      .footer-content { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="nav container" aria-label="Navigation principale">
+      <a class="brand" href="#accueil">
+        <span class="brand-mark">U</span>
+        <span>Union studio</span>
+      </a>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#methode">Méthode</a>
+        <a href="#realisations">Réalisations</a>
+        <a class="nav-cta" href="#contact">Parlons de votre projet&nbsp; ↗</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="accueil">
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="hero-screen" x2="1" y2="1">
+              <stop stop-color="#8bd5ff" stop-opacity=".55"/>
+              <stop offset="1" stop-color="#102235" stop-opacity=".1"/>
+            </linearGradient>
+            <linearGradient id="hero-desk" x2="1">
+              <stop stop-color="#101721"/>
+              <stop offset=".6" stop-color="#45647e"/>
+              <stop offset="1" stop-color="#101721"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="550" cy="500" rx="360" ry="55" fill="#70caff" opacity=".14"/>
+          <path d="M0 465 900 390v210H0Z" fill="url(#hero-desk)"/>
+          <rect x="160" y="55" width="600" height="365" rx="14" fill="#05090e" stroke="#607b92" stroke-width="8"/>
+          <rect x="178" y="73" width="564" height="329" rx="5" fill="url(#hero-screen)"/>
+          <rect x="205" y="98" width="360" height="225" rx="6" fill="#101d2a" opacity=".9"/>
+          <rect x="580" y="98" width="135" height="100" rx="6" fill="#17283a"/>
+          <rect x="580" y="210" width="135" height="113" rx="6" fill="#101b28"/>
+          <path d="M205 345h510M205 365h280" stroke="#8bd5ff" stroke-opacity=".55" stroke-width="5"/>
+          <path d="M420 420v75h80v-75" fill="#192735"/>
+          <path d="M330 500h260l65 20H265Z" fill="#26394a" stroke="#607b92" stroke-width="4"/>
+        </svg>
+      </div>
+
+      <div class="container hero-content">
+        <span class="eyebrow">Création indépendante · Web · Image · Son</span>
+        <h1>Tout votre univers.<br><span>Un seul créateur.</span></h1>
+        <p class="hero-copy">
+          Site web, application, vidéo et son : je conçois et réalise vos projets
+          de bout en bout pour créer une expérience cohérente, soignée et mémorable.
+        </p>
+        <div class="button-row">
+          <a class="button" href="#contact">Demander un devis <span aria-hidden="true">↗</span></a>
+          <a class="button button-secondary" href="#realisations">Découvrir mon univers</a>
+        </div>
+        <p class="hero-note"><strong>Un seul interlocuteur.</strong> Une direction créative, du premier échange à la livraison.</p>
+        <div class="hero-tags" aria-label="Domaines de création">
+          <span class="hero-tag"><span>✦</span>Web & applications</span>
+          <span class="hero-tag"><span>✦</span>Vidéo</span>
+          <span class="hero-tag"><span>✦</span>Audio</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Mes services</span>
+            <h2>De l’idée à la mise en ligne.</h2>
+          </div>
+          <p>Chaque projet est conçu sur mesure : pas de modèle générique, pas de sous-traitance.</p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">⌘</div>
+            <h3>Création de site web</h3>
+            <p>Un site rapide, lisible sur téléphone et pensé pour transformer vos visiteurs en contacts.</p>
+            <ul>
+              <li>Site vitrine, portfolio et landing page</li>
+              <li>Boutique en ligne</li>
+              <li>Référencement de base</li>
+              <li>Hébergement et nom de domaine configurés</li>
+            </ul>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">◇</div>
+            <h3>Applications sur mesure</h3>
+            <p>Un outil adapté à votre besoin, du prototype à la version en ligne.</p>
+            <ul>
+              <li>Applications web et outils internes</li>
+              <li>Tableaux de bord et formulaires</li>
+              <li>Automatisations et interfaces interactives</li>
+              <li>Maintenance et évolutions</li>
+            </ul>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">▶</div>
+            <h3>Montage vidéo</h3>
+            <p>Des vidéos rythmées, étalonnées et prêtes à être diffusées.</p>
+            <ul>
+              <li>Clips, vidéos promotionnelles et aftermovies</li>
+              <li>Formats vertical, carré et paysage</li>
+              <li>Sous-titres et habillage graphique</li>
+              <li>Étalonnage et export optimisé</li>
+            </ul>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">♫</div>
+            <h3>Production audio</h3>
+            <p>Un son propre et équilibré, au service de votre image et de votre message.</p>
+            <ul>
+              <li>Montage de voix et de podcasts</li>
+              <li>Mixage et mastering</li>
+              <li>Sound design et habillage sonore</li>
+              <li>Musique pour la vidéo et la scène</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="process-section" id="methode">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">La méthode</span>
+            <h2>Simple, claire, efficace.</h2>
+          </div>
+          <p>Quatre étapes, un seul interlocuteur et un calendrier défini ensemble.</p>
+        </div>
+
+        <div class="process-grid">
+          <article class="process-step">
+            <span class="step-number">01 / BRIEF</span>
+            <h3>On échange</h3>
+            <p>On définit votre objectif, votre public, vos envies et votre budget.</p>
+          </article>
+          <article class="process-step">
+            <span class="step-number">02 / PROPOSITION</span>
+            <h3>On cadre</h3>
+            <p>Je présente une maquette, un plan de montage ou une démo sonore.</p>
+          </article>
+          <article class="process-step">
+            <span class="step-number">03 / PRODUCTION</span>
+            <h3>On donne vie au projet</h3>
+            <p>Je réalise le projet avec des points d’étape et deux tours de corrections.</p>
+          </article>
+          <article class="process-step">
+            <span class="step-number">04 / LIVRAISON</span>
+            <h3>Vous êtes prêt</h3>
+            <p>Vous recevez les fichiers finaux, la mise en ligne et une prise en main si besoin.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="realisations">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">En images</span>
+            <h2>Web, vidéo & univers sonore.</h2>
+          </div>
+          <p>Quelques aperçus de mon univers créatif et des domaines dans lesquels je vous accompagne.</p>
+        </div>
+
+        <div class="portfolio-grid">
+          <article class="project-card">
+            <div class="project-image-wrap">
+              <svg class="project-image" viewBox="0 0 600 360" role="img" aria-label="Console de mixage audio lumineuse" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="audio-bg" x2="0" y2="1">
+                    <stop stop-color="#152436"/>
+                    <stop offset="1" stop-color="#06090e"/>
+                  </linearGradient>
+                </defs>
+                <rect width="600" height="360" fill="url(#audio-bg)"/>
+                <path d="M0 145 600 75v285H0Z" fill="#111b27" stroke="#33485c" stroke-width="4"/>
+                <g fill="#9bdcff">
+                  <rect x="75" y="65" width="12" height="88" rx="6"/>
+                  <rect x="155" y="45" width="12" height="108" rx="6"/>
+                  <rect x="235" y="72" width="12" height="81" rx="6"/>
+                  <rect x="315" y="35" width="12" height="118" rx="6"/>
+                  <rect x="395" y="55" width="12" height="98" rx="6"/>
+                  <rect x="475" y="25" width="12" height="128" rx="6"/>
+                </g>
+                <g fill="#192b3d" stroke="#526a7d" stroke-width="3">
+                  <rect x="50" y="190" width="55" height="115" rx="8"/>
+                  <rect x="130" y="180" width="55" height="115" rx="8"/>
+                  <rect x="210" y="170" width="55" height="115" rx="8"/>
+                  <rect x="290" y="160" width="55" height="115" rx="8"/>
+                  <rect x="370" y="150" width="55" height="115" rx="8"/>
+                  <rect x="450" y="140" width="55" height="115" rx="8"/>
+                </g>
+                <g fill="#8bd5ff">
+                  <circle cx="78" cy="240" r="13"/>
+                  <circle cx="158" cy="225" r="13"/>
+                  <circle cx="238" cy="215" r="13"/>
+                  <circle cx="318" cy="205" r="13"/>
+                  <circle cx="398" cy="195" r="13"/>
+                  <circle cx="478" cy="185" r="13"/>
+                </g>
+              </svg>
+            </div>
+            <div class="project-content">
+              <span class="project-type">Audio · Mixage</span>
+              <h3>Le son dans le détail</h3>
+              <p>Montage, mixage et création sonore pour donner du relief à vos contenus.</p>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image-wrap">
+              <svg class="project-image" viewBox="0 0 600 360" role="img" aria-label="Objectif de caméra aux reflets bleus" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="lens-bg">
+                    <stop stop-color="#29445c"/>
+                    <stop offset="1" stop-color="#05080d"/>
+                  </radialGradient>
+                  <radialGradient id="lens-glass">
+                    <stop stop-color="#10283b"/>
+                    <stop offset=".65" stop-color="#05090e"/>
+                    <stop offset="1" stop-color="#607b92"/>
+                  </radialGradient>
+                </defs>
+                <rect width="600" height="360" fill="url(#lens-bg)"/>
+                <path d="M0 80 255 40v280L0 280Z" fill="#101721" stroke="#40586d" stroke-width="8"/>
+                <ellipse cx="370" cy="180" rx="165" ry="168" fill="#080c12" stroke="#a9c5d9" stroke-width="10"/>
+                <ellipse cx="370" cy="180" rx="137" ry="140" fill="#172635" stroke="#526b80" stroke-width="9"/>
+                <ellipse cx="370" cy="180" rx="104" ry="108" fill="url(#lens-glass)" stroke="#8ba7bd" stroke-width="7"/>
+                <path d="M375 80c45 13 73 47 83 87" fill="none" stroke="#a6e2ff" stroke-width="11" stroke-linecap="round"/>
+                <path d="M0 320 600 270v90H0Z" fill="#080c12" opacity=".8"/>
+              </svg>
+            </div>
+            <div class="project-content">
+              <span class="project-type">Vidéo · Image</span>
+              <h3>Une image qui marque</h3>
+              <p>Montage, rythme et étalonnage pour raconter votre histoire avec impact.</p>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image-wrap">
+              <svg class="project-image" viewBox="0 0 600 360" role="img" aria-label="Casque audio et clavier dans un studio sombre" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="headphone-bg" x2="0" y2="1">
+                    <stop stop-color="#17212c"/>
+                    <stop offset="1" stop-color="#05070a"/>
+                  </linearGradient>
+                </defs>
+                <rect width="600" height="360" fill="url(#headphone-bg)"/>
+                <path d="M0 270 600 220v140H0Z" fill="#111a24"/>
+                <path d="M155 190v-55c0-95 54-142 145-142s145 47 145 142v55" fill="none" stroke="#05080b" stroke-width="43" stroke-linecap="round"/>
+                <path d="M155 185v-50c0-78 54-117 145-117s145 39 145 117v50" fill="none" stroke="#526575" stroke-width="5"/>
+                <rect x="125" y="150" width="75" height="130" rx="30" fill="#101720" stroke="#65798a" stroke-width="6"/>
+                <rect x="400" y="150" width="75" height="130" rx="30" fill="#101720" stroke="#65798a" stroke-width="6"/>
+                <rect x="138" y="166" width="50" height="98" rx="22" fill="#080c11"/>
+                <rect x="412" y="166" width="50" height="98" rx="22" fill="#080c11"/>
+                <rect x="430" y="205" width="8" height="25" rx="4" fill="#8bd5ff"/>
+                <path d="M85 292h430l40 55H45Z" fill="#090d12" stroke="#405365" stroke-width="5"/>
+                <g fill="#263747" stroke="#708496" stroke-width="2">
+                  <rect x="110" y="303" width="42" height="17" rx="4"/>
+                  <rect x="162" y="303" width="42" height="17" rx="4"/>
+                  <rect x="214" y="303" width="42" height="17" rx="4"/>
+                  <rect x="266" y="303" width="42" height="17" rx="4"/>
+                  <rect x="318" y="303" width="42" height="17" rx="4"/>
+                  <rect x="370" y="303" width="42" height="17" rx="4"/>
+                  <rect x="422" y="303" width="42" height="17" rx="4"/>
+                </g>
+              </svg>
+            </div>
+            <div class="project-content">
+              <span class="project-type">Audio · Création</span>
+              <h3>Une identité sonore</h3>
+              <p>Un univers sonore cohérent, du premier son jusqu’au mix final.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pourquoi">
+      <div class="container why-grid">
+        <div class="why-copy">
+          <span class="eyebrow">Pourquoi travailler ensemble</span>
+          <h2>Un projet cohérent, sans friction.</h2>
+          <p class="why-intro">Vous échangez directement avec la personne qui imagine et réalise votre projet.</p>
+        </div>
+
+        <div class="benefits">
+          <article class="benefit">
+            <span class="benefit-mark" aria-hidden="true">↗</span>
+            <div>
+              <h3>Un seul interlocuteur</h3>
+              <p>Le site, la vidéo et le son avancent dans la même direction créative.</p>
+            </div>
+          </article>
+          <article class="benefit">
+            <span class="benefit-mark" aria-hidden="true">↗</span>
+            <div>
+              <h3>Création et technique</h3>
+              <p>Des réalisations visuelles et soignées, solides et faciles à faire évoluer.</p>
+            </div>
+          </article>
+          <article class="benefit">
+            <span class="benefit-mark" aria-hidden="true">↗</span>
+            <div>
+              <h3>Un suivi transparent</h3>
+              <p>Un calendrier annoncé et une communication claire à chaque étape.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="container contact-grid">
+        <div class="contact-copy">
+          <span class="eyebrow">Contact</span>
+          <h2>On parle de votre projet&nbsp;?</h2>
+          <p class="contact-intro">Décrivez votre besoin en quelques lignes. Je vous répondrai avec les prochaines étapes et un devis gratuit.</p>
+          <p class="contact-email">
+            Vous pouvez aussi m’écrire directement :<br>
+            <a href="mailto:jeanvictormichel@gmail.com">jeanvictormichel@gmail.com</a>
+          </p>
+        </div>
+
+        <form class="contact-form" id="contact-form">
+          <div class="field">
+            <label for="name">Votre nom</label>
+            <input id="name" name="name" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label for="email">Votre e-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+
+          <div class="field field-full">
+            <label for="project-type">Type de projet</label>
+            <select id="project-type" name="project-type">
+              <option>Site web</option>
+              <option>Application sur mesure</option>
+              <option>Vidéo</option>
+              <option>Audio</option>
+              <option>Projet combiné</option>
+              <option>Autre</option>
+            </select>
+          </div>
+
+          <div class="field field-full">
+            <label for="message">Votre message</label>
+            <textarea id="message" name="message" placeholder="Parlez-moi de votre projet, de vos objectifs et de votre calendrier…" required></textarea>
+          </div>
+
+          <p class="form-note">Le bouton prépare un e-mail dans votre messagerie ; il ne l’envoie pas automatiquement.</p>
+          <button class="button" type="submit">Préparer ma demande <span aria-hidden="true">↗</span></button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <span>© <span id="year"></span> Union studio · Web, vidéo & audio</span>
+      <a href="mailto:jeanvictormichel@gmail.com">jeanvictormichel@gmail.com</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    document.getElementById("contact-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const data = new FormData(event.currentTarget);
+      const subject = `Demande de devis — ${data.get("project-type")}`;
+      const body = [
+        `Nom : ${data.get("name")}`,
+        `E-mail : ${data.get("email")}`,
+        `Type de projet : ${data.get("project-type")}`,
+        "",
+        "Message :",
+        data.get("message")
+      ].join("\n");
+
+      window.location.href =
+        `mailto:jeanvictormichel@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  </script>
+</body>
+</html>
